@@ -24,7 +24,22 @@
                 Console.WriteLine("Gold:" + Gold+ "G");
             }
         }
-        
+        class Inventory : Player
+        {
+            public virtual void State()
+            {
+                Console.WriteLine("[아이템목록]\n");
+                
+            }
+        }
+        class Item : Inventory
+        {
+            
+            public override void State()
+            {
+                Console.WriteLine("");
+            }            
+        }                          
         static void StartText()
         {
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다");
@@ -34,10 +49,26 @@
             Console.WriteLine("3.상점");
             
         }
+        static void Exit(int outNumber)
+        {
+            Console.WriteLine("\n0.나가기");
+            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>");
+            while (outNumber != 0)
+            {
+                outNumber = int.Parse(Console.ReadLine());
+                if (outNumber != 0)
+                {
+                    Console.WriteLine("잘못된 숫자를 입력했습니다. 다시 입력해주세요");
+                }
+
+            }
+        }
         static void Main(string[] args)
         {
             Player player = new Player();
+            Inventory inventory = new Inventory();
             List<Player> list = new List<Player>();
+            List<Item> items = new List<Item>();            
             player.Level = 1;
             player.Chad = "전사";
             player.AttackPower = 10;
@@ -57,17 +88,13 @@
                     case 1:
                         Console.WriteLine("상태보기입니다!");
                         player.PrintInfo();
-                        Console.WriteLine("\n0.나가기");
-                        Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>");                                              
-                        while(inputNumber!=0)
-                        {
-                            inputNumber = int.Parse(Console.ReadLine());
-                            Console.WriteLine("잘못된 숫자를 입력했습니다. 다시 입력해주세요");
-                        }
+                        Exit(inputNumber);
                         break;
                         
                     case 2:
                         Console.WriteLine("인벤토리입니다");
+                        inventory.State();
+                        Exit(inputNumber);
                         break;
                     case 3:
                         Console.WriteLine("상점입니다");

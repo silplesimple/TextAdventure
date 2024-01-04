@@ -1,17 +1,19 @@
 ﻿namespace TextAdventure
 {
+    
     internal class Program
     {
-      
-        class Player
+        
+        
+        public class Player
         {
-            public string Name { get; set; }//이름
+            public virtual string Name { get; set; }//이름
             public int Level { get; set; }//레벨
             public string Chad { get; set; }//직업
-            public int AttackPower { get; set; }//공격력
-            public int Defense{  get; set; }//방어력
-            public int Health {  get; set; }//체력
-            public int Gold { get; set; }//골드
+            public virtual int AttackPower { get; set; }//공격력
+            public virtual int Defense{  get; set; }//방어력
+            public virtual int Health {  get; set; }//체력
+            public virtual int Gold { get; set; }//골드
             
             public void PrintInfo()
             {
@@ -23,23 +25,56 @@
                 Console.WriteLine("체력:" + Health);
                 Console.WriteLine("Gold:" + Gold+ "G");
             }
-        }
-        class Inventory : Player
-        {
-            public virtual void State()
-            {
-                Console.WriteLine("[아이템목록]\n");
-                
-            }
-        }
-        class Item : Inventory
-        {
             
-            public override void State()
+        }
+        
+       
+        public class Item 
+        {
+            public int ItemIndex { get; set; }
+            public string Name { get; set; }
+
+            public string StatName { get; set; }
+            public  int Stat {  get; set; }
+            
+            public string Manual {  get; set; }
+            
+            public int Gold { get; set; }
+
+            public string CheckItem {  get; set; }
+            public void MakeItem(int index,string name,string statName,int stat,string manual,int gold)
             {
-                Console.WriteLine("");
-            }            
-        }                          
+                ItemIndex = index;
+                Name = name;
+                StatName = statName;
+                Stat = stat;
+                Manual = manual;
+                Gold = gold;
+            }
+            public void HaveItem()
+            {
+                CheckItem = "[E]";
+            }
+            public void UnItem()
+            {
+                CheckItem = " ";
+            }
+
+            public void ItemStats()
+            {
+                Console.WriteLine($"-{CheckItem}{ItemIndex+1} {Name} |{StatName}+{Stat} | {Manual} ");
+            }
+            public void BuyItem()
+            {
+                Console.WriteLine($"-{Name} |{StatName}+{Stat} | {Manual} | {Gold} G ");
+            }
+            public void SellItem()
+            {
+                Console.WriteLine($"-{Name} |{StatName}+{Stat} | {Manual} | 구매완료 ");
+            }
+        }         
+        public static List<Item> items = new List<Item>();       
+        
         static void StartText()
         {
             Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다");
@@ -65,17 +100,20 @@
         }
         static void Main(string[] args)
         {
-            Player player = new Player();
-            Inventory inventory = new Inventory();
-            List<Player> list = new List<Player>();
-            List<Item> items = new List<Item>();            
+            Player player = new Player();       //불러와서 정보를 입력한 것
+            Item item1 = new Item(); 
+            Item item2= new Item();
+            item1.MakeItem(0,"무쇠갑옷","방어력",5,"무쇠로 만들어져 튼튼한 갑옷입니다.",1000);
+            item2.MakeItem(1, "스파르타의 창", "공격력", 7, "스파르타의 전사들이 사용했다는 전설의 창입니다", 800);
+            items.Add(item1);
+            items.Add(item2);
             player.Level = 1;
             player.Chad = "전사";
             player.AttackPower = 10;
             player.Defense = 5;
             player.Health = 100;
             player.Gold = 1500;           
-            Console.WriteLine("플레이어의 이름을 입력하세요");
+            Console.WriteLine("플레이어의 이름을 입력하세요");         
             player.Name = Console.ReadLine();
             int inputNumber; //진행 숫자            
             while (true)
@@ -89,11 +127,14 @@
                         Console.WriteLine("상태보기입니다!");
                         player.PrintInfo();
                         Exit(inputNumber);
-                        break;
-                        
+                        break;                        
                     case 2:
-                        Console.WriteLine("인벤토리입니다");
-                        inventory.State();
+                        Console.WriteLine("인벤토리입니다\n보유 중인 아이템을 관리할 수 있습니다.");
+                        Console.WriteLine("\n[아이템 목록]");
+                        foreach(Item item in items)
+                        {
+                            item.ItemStats();
+                        }
                         Exit(inputNumber);
                         break;
                     case 3:

@@ -127,15 +127,51 @@
                         Console.WriteLine("상태보기입니다!");
                         player.PrintInfo();
                         Exit(inputNumber);
-                        break;                        
+                        break;
                     case 2:
-                        Console.WriteLine("인벤토리입니다\n보유 중인 아이템을 관리할 수 있습니다.");
-                        Console.WriteLine("\n[아이템 목록]");
-                        foreach(Item item in items)
-                        {
-                            item.ItemStats();
-                        }
-                        Exit(inputNumber);
+                        while (inputNumber != 0) {
+                            Console.WriteLine("인벤토리입니다\n보유 중인 아이템을 관리할 수 있습니다.");
+                            Console.WriteLine("\n[아이템 목록]");
+                            foreach (Item item in items)
+                            {
+                                item.ItemStats();
+                            }
+                            Console.WriteLine("\n1.장착관리");
+                            Console.WriteLine("\n0.나가기");
+                            Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>");
+                            inputNumber = int.Parse(Console.ReadLine());
+                            if(inputNumber==1)
+                            {
+                                while (inputNumber != 0)
+                                {
+                                    Console.WriteLine("인벤토리입니다\n보유 중인 아이템을 관리할 수 있습니다.");
+                                    Console.WriteLine("\n[아이템 목록]");
+                                    foreach (Item item in items)
+                                    {
+                                        item.ItemStats();
+                                    }                                    
+                                    Console.WriteLine("\n0.나가기");
+                                    Console.WriteLine("\n원하시는 행동을 입력해주세요.\n>>");
+                                    inputNumber = int.Parse(Console.ReadLine());
+                                    if (inputNumber == item1.ItemIndex+1)
+                                    {
+                                        item1.HaveItem();
+                                    }
+                                    else if(inputNumber==item2.ItemIndex+1)
+                                    {
+                                        item2.HaveItem();
+                                    }
+                                    else if (inputNumber != 0)
+                                    {
+                                        Console.WriteLine("잘못된 숫자를 입력했습니다. 다시 입력해주세요");
+                                    }
+                                }
+                            }
+                            else if (inputNumber != 0)
+                            {
+                                Console.WriteLine("잘못된 숫자를 입력했습니다. 다시 입력해주세요");
+                            }
+                        }                
                         break;
                     case 3:
                         Console.WriteLine("상점입니다");

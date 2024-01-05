@@ -42,6 +42,8 @@
             public int Gold { get; set; }
 
             public string CheckItem  {  get; set; }
+
+            public string CheckBuyItem {  get; set; }
             public void MakeItem(int index,string name,string statName,int stat,string manual,int gold)
             {
                 ItemIndex = index;
@@ -59,19 +61,27 @@
             {
                 CheckItem = null;
             }
-
+            public void Unbuy()
+            {
+                CheckBuyItem = $"{Gold} G";
+            }
+            public void Buy()
+            {
+                CheckBuyItem = "구매완료";
+            }
             public void ItemStats()
             {
                 Console.WriteLine($"-{CheckItem}{ItemIndex+1} {Name} |{StatName}+{Stat} | {Manual} ");
             }
+            public void ShopItem()
+            {
+                Console.WriteLine($"-{Name} |{StatName}+{Stat} | {Manual} | {CheckBuyItem} ");
+            }
             public void BuyItem()
             {
-                Console.WriteLine($"-{Name} |{StatName}+{Stat} | {Manual} | {Gold} G ");
+                Console.WriteLine($"-{ItemIndex + 1} {Name} |{StatName}+{Stat} | {Manual} | {CheckBuyItem}");
             }
-            public void SellItem()
-            {
-                Console.WriteLine($"-{Name} |{StatName}+{Stat} | {Manual} | 구매완료 ");
-            }
+            
         }         
         public static List<Item> items = new List<Item>();       
         
@@ -112,7 +122,7 @@
             player.AttackPower = 10;
             player.Defense = 5;
             player.Health = 100;
-            player.Gold = 1500;           
+            player.Gold = 2000;           
             Console.WriteLine("플레이어의 이름을 입력하세요");         
             player.Name = Console.ReadLine();
             int inputNumber; //진행 숫자            
@@ -194,8 +204,122 @@
                         }                
                         break;
                     case 3:
-                        Console.WriteLine("상점입니다");
+                        List<Item> itemShop = new List<Item>();
+                        Item item3 = new Item(); Item item4 = new Item(); Item item5 = new Item(); Item item6 = new Item();
+                        item3.MakeItem(2, "수련자 갑옷", "방어력", 3, "수련에 도음을 주는 갑옷입니다.", 500);
+                        item4.MakeItem(3, "스파르타의 갑옷", "방어력", 10, "스파트라의 전사들이 사용했다는 전설의 갑옷입니다.", 3000);
+                        item5.MakeItem(4, "낡은검", "공격력", 2, "쉽게 볼 수 있는 낡은 검 입니다.", 500);
+                        item6.MakeItem(5, "청동 도끼", "공격력", 5, "어디선가 사용됐던거 같은도끼입니다. ", 1500);
+                        item1.Buy();
+                        item2.Buy();
+                        item3.Unbuy();
+                        item4.Unbuy();
+                        item5.Unbuy();
+                        item6.Unbuy();
+                        itemShop.Add(item1);
+                        itemShop.Add(item2);
+                        itemShop.Add(item3);
+                        itemShop.Add(item4);
+                        itemShop.Add(item5);
+                        itemShop.Add(item6);
+                        while (inputNumber != 0)
+                        {
+
+                            Console.WriteLine("상점입니다! 필요한 아이템을 구매하세요\n");
+                            Console.WriteLine("[보유 골드]");
+                            Console.WriteLine($"{player.Gold} G");
+                            Console.WriteLine("\n[아이템 목록]");
+                                                       
+                            foreach (Item item in itemShop)
+                            {
+                                item.ShopItem();
+                            }
+                            Console.WriteLine("\n1.아이템 구매");
+                            Console.WriteLine("0.나가기");
+                            inputNumber = int.Parse(Console.ReadLine());
+                            if (inputNumber == 1)
+                            {
+                                while(inputNumber !=0)
+                                {
+                                   
+                                    Console.WriteLine("상점입니다! 필요한 아이템을 구매하세요\n");
+                                    Console.WriteLine("[보유 골드]");
+                                    Console.WriteLine($"{player.Gold} G");
+                                    Console.WriteLine("\n[아이템 목록]");
+                                    foreach (Item item in itemShop)
+                                    {
+                                        item.BuyItem();
+                                    }
+                                    Console.WriteLine("0.나가기");
+                                    inputNumber = int.Parse(Console.ReadLine());
+                                    if (inputNumber == item3.ItemIndex +1 && player.Gold>=item3.Gold )
+                                    {
+                                        if (item3.CheckBuyItem != "구매완료")
+                                        {
+                                            item3.Buy();
+                                            player.Gold -= item3.Gold;
+                                            Console.WriteLine(("\n구매가 완료했습니다.\n"));
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("\n이미 구매한 물품입니다.\n");
+                                        }
+                                    }
+                                    else if (inputNumber == item4.ItemIndex + 1 && player.Gold >= item4.Gold)
+                                    {
+                                        if (item4.CheckBuyItem != "구매완료")
+                                        {
+                                            item4.Buy();
+                                            player.Gold -= item4.Gold;
+                                            Console.WriteLine(("\n구매가 완료했습니다.\n"));
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("\n이미 구매한 물품입니다.\n");
+                                        }
+                                    }
+                                    else if (inputNumber == item5.ItemIndex + 1 && player.Gold >= item5.Gold)
+                                    {
+                                        if (item5.CheckBuyItem != "구매완료")
+                                        {
+                                            item5.Buy();
+                                            player.Gold -= item5.Gold;
+                                            Console.WriteLine(("\n구매가 완료했습니다.\n"));
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("\n이미 구매한 물품입니다.\n");
+                                        }
+                                    }
+                                    else if (inputNumber == item6.ItemIndex + 1 && player.Gold >= item6.Gold)
+                                    {
+
+                                        if (item6.CheckBuyItem != "구매완료")
+                                        {
+                                            item6.Buy();
+                                            player.Gold -= item6.Gold;
+                                            Console.WriteLine(("\n구매가 완료했습니다.\n"));
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("\n이미 구매한 물품입니다.\n");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nGold 가 부족합니다\n");
+                                    }
+                                    break;
+                                }
+                            }
+                            else if(inputNumber !=0)
+                            {
+                                Console.WriteLine("잘못입력하셨습니다");
+                            }
+                            
+                        }
                         break;
+
                     default:
                         Console.WriteLine("잘못입력하셨습니다");
                         break;

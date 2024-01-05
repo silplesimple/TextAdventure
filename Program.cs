@@ -41,7 +41,7 @@
             
             public int Gold { get; set; }
 
-            public string CheckItem {  get; set; }
+            public string CheckItem  {  get; set; }
             public void MakeItem(int index,string name,string statName,int stat,string manual,int gold)
             {
                 ItemIndex = index;
@@ -57,7 +57,7 @@
             }
             public void UnItem()
             {
-                CheckItem = " ";
+                CheckItem = null;
             }
 
             public void ItemStats()
@@ -128,7 +128,7 @@
                         player.PrintInfo();
                         Exit(inputNumber);
                         break;
-                    case 2:
+                    case 2:                        
                         while (inputNumber != 0) {
                             Console.WriteLine("인벤토리입니다\n보유 중인 아이템을 관리할 수 있습니다.");
                             Console.WriteLine("\n[아이템 목록]");
@@ -155,11 +155,31 @@
                                     inputNumber = int.Parse(Console.ReadLine());
                                     if (inputNumber == item1.ItemIndex+1)
                                     {
-                                        item1.HaveItem();
+                                        if(item1.CheckItem==null)
+                                        {
+                                            item1.HaveItem();
+                                            player.Defense += item1.Stat;
+                                        }
+                                        else
+                                        {
+                                            item1.UnItem();
+                                            player.Defense -= item1.Stat;
+
+                                        }    
+                                        
                                     }
                                     else if(inputNumber==item2.ItemIndex+1)
                                     {
-                                        item2.HaveItem();
+                                        if (item2.CheckItem == null)
+                                        {
+                                            item2.HaveItem();
+                                            player.AttackPower += item2.Stat;
+                                        }
+                                        else
+                                        {
+                                            item2.UnItem();
+                                            player.AttackPower -= item2.Stat;
+                                        }
                                     }
                                     else if (inputNumber != 0)
                                     {

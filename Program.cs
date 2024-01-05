@@ -252,7 +252,16 @@
                                     }
                                     Console.WriteLine("0.나가기");
                                     inputNumber = int.Parse(Console.ReadLine());
-                                    if (inputNumber == item3.ItemIndex +1 && player.Gold>=item3.Gold )
+
+                                    if (inputNumber == item1.ItemIndex + 1)
+                                    {                                        
+                                        Console.WriteLine("\n이미 구매한 물품입니다.\n");                                        
+                                    }
+                                    else  if (inputNumber == item2.ItemIndex + 1)
+                                    {
+                                        Console.WriteLine("\n이미 구매한 물품입니다.\n");
+                                    }
+                                    else  if (inputNumber == item3.ItemIndex +1 && player.Gold>=item3.Gold )
                                     {
                                         if (item3.CheckBuyItem != "구매완료")
                                         {
